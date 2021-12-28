@@ -1,0 +1,9 @@
+.text {
+  color: black;
+  font-size: 24px;
+  text-align: left;
+  text-transform: capitalize;
+}
+.number {
+  margin-left: 30px;
+}
