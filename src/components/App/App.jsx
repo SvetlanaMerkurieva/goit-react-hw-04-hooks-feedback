@@ -1,39 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Section } from '../Section/Section';
 import { FeedbackOptions } from '../FeedbackOptions/FeedbackOptions';
 import { Statistics } from '../Statistics/Statistics';
 import { Notification } from '../Notification/Notification';
 import s from './App.module.css';
 
-export function App() {
+export default function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
   const onLeaveFeedback = name => {
     switch (name) {
-      case 'good':
+      case 'Хорошо':
         setGood(prevState => prevState + 1);
         break;
-      case 'neutral':
+      case 'Нейтрально':
         setNeutral(prevState => prevState + 1);
         break;
-      case 'bad':
+      case 'Плохо':
         setBad(prevState => prevState + 1);
         break;
+      default:
+        return;
     }
   };
-
-  const total = useEffect(() => {
-    const countTotalFeedback = good + neutral + bad;
-  }, [good, neutral, bad]);
+  const countTotalFeedbacks = () => {
+    return good + neutral + bad;
+  };
 
   const countPositiveFeedbackPercentage = () => {
+    const total = countTotalFeedbacks();
     return Math.round((good / total) * 100);
   };
 
-  const options = ['good', 'neutral', 'bad'];
-  const statistics = { good: good, neutral: neutral, bad: bad };
+  const options = ['Хорошо', 'Нейтрально', 'Плохо'];
+  const statistics = Object.entries({
+    Хорошо: good,
+    Нейтрально: neutral,
+    Плохо: bad,
+  });
+  const total = countTotalFeedbacks();
   const positivePercentage = countPositiveFeedbackPercentage();
 
   return (
@@ -41,8 +48,8 @@ export function App() {
       <header className={s.appHeader}>
         <Section title="Пожалуйста, оставьте отзыв" />
         <FeedbackOptions options={options} onLeaveFeedback={onLeaveFeedback} />
-        {!countTotalFeedback && <Notification message="Отзывов нет" />}
-        {countTotalFeedback && (
+        {!total && <Notification message="Отзывов нет" />}
+        {total && (
           <>
             <Section title="Статистика отзывов" />
             <Statistics

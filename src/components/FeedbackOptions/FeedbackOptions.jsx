@@ -3,7 +3,7 @@ import s from './FeedbackOptions.module.css';
 
 export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   return (
-    <ul>
+    <ul className={s.listButton}>
       {options.map(name => (
         <li>
           <button
@@ -19,7 +19,5 @@ export const FeedbackOptions = ({ options, onLeaveFeedback }) => {
   );
 };
 FeedbackOptions.propTypes = {
-  onLeaveFeedbackGood: PropTypes.func,
-  onLeaveFeedbackNeutral: PropTypes.func,
-  onLeaveFeedbackBad: PropTypes.func,
+  onLeaveFeedback: PropTypes.func,
 };
